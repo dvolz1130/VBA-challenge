@@ -9,10 +9,14 @@ Sub stock_market()
     Summary_Table_Row = 2
     
     ' Variables to hold beginning year open, end of year close, and Yearly_change
-    'Dim begin_year_open As Double
-    'Dim end_year_close As Double
+    Dim begin_year_open As Double
+    Dim end_year_close As Double
     Dim yearly_change As Double
+    Dim percent_change As Double
+    Dim total_vol As Double
     yearly_change = 0
+    percent_change = 0
+    total_vol = 0
     
     ' Set begin_year_open variable
     begin_year_open = Range("C2").Value
@@ -50,8 +54,8 @@ Sub stock_market()
             ' Print the ticker name in the Ticker symbol column
             Cells(Summary_Table_Row, TS).Value = ticker_name
             
-            ' Add 1 to the summary table
-            ' Summary_Table_Row = Summary_Table_Row + 1
+            ' Add to total_vol
+            total_vol = total_vol + Range("G" & x).Value
             
             'Set end_year_close variable
             end_year_close = Range("F" & x).Value
@@ -84,15 +88,35 @@ Sub stock_market()
             
             End If
             
+            ' Getting Percent changed
+            percent_change = (end_year_close - begin_year_open) / end_year_close
+            Cells(Summary_Table_Row, PC).Value = percent_change
+            Columns(PC).NumberFormat = "0.00%"
+            
+            ' Add total volume to Total Stock Volume column
+            Cells(Summary_Table_Row, TSV).Value = total_vol
+            
             ' Add 1 to the summary table
             Summary_Table_Row = Summary_Table_Row + 1
             
-            ' Set begin_year_open variable to new open value
+            ' Reset total_vol
+            total_vol = 0
+            
+            ' Reset begin_year_open variable to new open value
             begin_year_open = Range("C" & (x + 1)).Value
             ' MsgBox ("begin year open is " & begin_year_open)
             
+        ' If the ticker symbols are the same, need to add to total_vol
+        Else
+            total_vol = total_vol + Range("G" & x).Value
         End If
-        
+                
     Next x
-        
+    
+' Auto fit all new columns
+Columns(TS).EntireColumn.AutoFit
+Columns(YC).EntireColumn.AutoFit
+Columns(PC).EntireColumn.AutoFit
+Columns(TSV).EntireColumn.AutoFit
+
 End Sub
