@@ -1,9 +1,18 @@
-VERSION 1.0 CLASS
-BEGIN
-  MultiUse = -1  'True
-END
-Attribute VB_Name = "Sheet1"
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = False
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = True
+Sub clear_cells()
+    For Each ws In Worksheets
+        ws.Columns(9).ClearContents
+        ws.Columns(10).ClearContents
+        ws.Columns(10).Interior.Color = xlNone
+        ws.Columns(11).ClearContents
+        ws.Columns(11).NumberFormat = "General"
+        ws.Columns(12).ClearContents
+        
+        ' If I forget to clear before re-running
+        ws.Columns(14).ClearContents
+        ws.Columns(15).ClearContents
+        ws.Columns(15).Interior.Color = xlNone
+        ws.Columns(16).ClearContents
+        ws.Columns(16).NumberFormat = "General"
+        ws.Columns(17).ClearContents
+    Next ws
+End Sub
